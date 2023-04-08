@@ -1,4 +1,4 @@
-### Nekoray builder script for macOS
+### NekoRay builder script for macOS
 
 This script is made to build **[https://github.com/MatsuriDayo/nekoray](https://github.com/MatsuriDayo/nekoray)** software for use on **`macOS`** operating system.
 
