@@ -44,19 +44,34 @@ export LDFLAGS="-L/usr/local/opt/qt@5/lib"
 export CPPFLAGS="-I/usr/local/opt/qt@5/include"
 export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
 
+nPath="$(pwd)/nekoray"
+
+# Create or clean build directory
+if [ ! -d "$nPath/build" ]; then
+  mkdir -p "$nPath/build"
+else
+
+  read -p "Do you want to clean 'build' and 'libs/deps' directories ? [y/n] " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    exit 1
+  fi
+
+  rm -rf "$nPath/libs/deps"
+  rm -rf "$nPath/build"
+  mkdir -p "$nPath/build"
+fi
+
+# Get and Build dependencies
 bash build_deps_all.sh
 
-# Build nekoray
-nPath="$(pwd)/nekoray"
-mkdir -p "$nPath/build"
-nApp=$nPath/build/nekoray.app
-
 cd "$nPath/build"
-rm -rf $nApp
 cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DNKR_PACKAGE_MACOS=1 ..
 ninja
 
 cd $nPath
+
+nApp=$nPath/build/nekoray.app
 
 # Deploy frameworks using macdeployqt
 for arch in "amd64" "arm64"; do
@@ -97,5 +112,6 @@ for arch in "amd64" "arm64"; do
   zip -r "$nPath/build/nekoray_$arch.zip" "$nPath/build/nekoray_$arch.app"
 done
 
-echo "Build finished"
-open .
+echo "Build finished and output files are in $nPath/build"
+cd "$nPath"
+open "$nPath/build"
