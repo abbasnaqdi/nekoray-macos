@@ -4,19 +4,22 @@ set -e
 
 # Clone or update repositories
 
-clone_or_update() {
+clone_or_update_with_tag() {
   local repo="$1"
   local url="$2"
   if [ -d "$repo" ]; then
-    git -C "$repo" submodule update --init --recursive
-    git -C "$repo" pull
+    git -C "$repo" reset --hard
+    git -C "$repo" fetch --all --tags --prune
   else
     git clone --recursive "$url" "$repo"
   fi
+  if [ -n "$(git -C "$repo" tag --list)" ]; then
+    git -C "$repo" checkout "$(git -C "$repo" describe --tags $(git -C "$repo" rev-list --tags --max-count=1))"
+  fi
 }
 
-clone_or_update "nekoray" "git@github.com:MatsuriDayo/nekoray.git"
-clone_or_update "v2ray-core" "git@github.com:MatsuriDayo/v2ray-core.git"
+clone_or_update_with_tag "nekoray" "git@github.com:MatsuriDayo/nekoray.git"
+clone_or_update_with_tag "v2ray-core" "git@github.com:MatsuriDayo/v2ray-core.git"
 
 # Install dependencies if they are not already installed
 
@@ -36,6 +39,7 @@ check_and_install() {
 check_and_install "cmake" "cmake"
 check_and_install "ninja" "ninja"
 check_and_install "go" "go"
+check_and_install "curl" "curl"
 check_and_install "macdeployqt" "qt@5"
 
 # Set environment variables
@@ -75,7 +79,7 @@ nApp=$nPath/build/nekoray.app
 
 # Deploy frameworks using macdeployqt
 for arch in "amd64" "arm64"; do
-  macdeployqt "$nApp" -verbose=2
+  macdeployqt "$nApp" -verbose=1
 done
 
 # Download data files for both amd64 and arm64
