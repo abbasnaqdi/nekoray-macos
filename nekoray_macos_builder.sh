@@ -83,11 +83,10 @@ for arch in "amd64" "arm64"; do
 done
 
 # Download data files for both amd64 and arm64
-for arch in "amd64" "arm64"; do
-  for file in "geoip.dat" "geosite.dat" "geoip.db" "geosite.db"; do
-    curl -Lso "$nApp/Contents/MacOS/$file" "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/$file"
-  done
-done
+curl -fLso $nApp/Contents/MacOS/geoip.dat "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
+curl -fLso $nApp/Contents/MacOS/geosite.dat "https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat"
+curl -fLso $nApp/Contents/MacOS/geoip.db "https://github.com/SagerNet/sing-geoip/releases/latest/download/geoip.db"
+curl -fLso $nApp/Contents/MacOS/geosite.db "https://github.com/SagerNet/sing-geosite/releases/latest/download/geosite.db"
 
 # copy fa_IR.qm and zh_CN.qm to nekoray.app/Contents/MacOS
 for file in "fa_IR.qm" "zh_CN.qm"; do
