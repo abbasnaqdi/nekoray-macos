@@ -2,11 +2,14 @@ name: Build and Release Nekoray
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-10.15
+
+    env:
+      MACOSX_DEPLOYMENT_TARGET: 10.15
 
     steps:
     - uses: actions/checkout@v2
@@ -27,25 +30,32 @@ jobs:
       id: create_release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        MY_TOKEN: ${{ secrets.MY_TOKEN }}
       with:
         tag_name: latest
         release_name: Release ${{ github.sha }}
         body: Automated release of Nekoray ${{ github.sha }}
         draft: false
         prerelease: false
-        permissions: write-all
 
-    - name: Upload Release Asset
-      id: upload-release-asset
+    - name: Upload Release Asset for amd64
+      id: upload-release-asset-amd64
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        MY_TOKEN: ${{ secrets.MY_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: |
-          nekoray/build/nekoray_amd64.zip
-          nekoray/build/nekoray_arm64.zip
-        asset_name: nekoray_latest.zip
+        asset_path: nekoray/build/nekoray_amd64.zip
+        asset_name: nekoray_amd64.zip
         asset_content_type: application/zip
-        permissions: write-all
+
+    - name: Upload Release Asset for arm64
+      id: upload-release-asset-arm64
+      uses: actions/upload-release-asset@v1
+      env:
+        MY_TOKEN: ${{ secrets.MY_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: nekoray/build/nekoray_arm64.zip
+        asset_name: nekoray_arm64.zip
+        asset_content_type: application/zip
