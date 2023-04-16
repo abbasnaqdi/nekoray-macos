@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-10.15
+    runs-on: macos-latest
 
     env:
       MACOSX_DEPLOYMENT_TARGET: 10.15
@@ -25,6 +25,10 @@ jobs:
         path: |
           nekoray/build/nekoray_amd64.zip
           nekoray/build/nekoray_arm64.zip
+          
+    - name: Check latest tag
+      id: check_tag
+      run: echo ::set-output name=latest_tag::$(git ls-remote --tags --sort=-v:refname https://github.com/MatsuriDayo/nekoray.git | head -n1 | awk '{print $2}' | sed 's/refs\/tags\///')
 
     - name: Create Release
       id: create_release
@@ -32,12 +36,12 @@ jobs:
       env:
         MY_TOKEN: ${{ secrets.MY_TOKEN }}
       with:
-        tag_name: latest
-        release_name: Release ${{ github.sha }}
-        body: Automated release of Nekoray ${{ github.sha }}
+        tag_name: ${{ steps.check_tag.outputs.latest_tag }}
+        release_name: Release ${{ steps.check_tag.outputs.latest_tag }}
+        body: Automated release of Nekoray ${{ steps.check_tag.outputs.latest_tag }}
         draft: false
-        prerelease: false
-
+        prerelease: ${{ contains(steps.check_tag.outputs.latest_tag, 'pre') }}
+        
     - name: Upload Release Asset for amd64
       id: upload-release-asset-amd64
       uses: actions/upload-release-asset@v1
