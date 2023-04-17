@@ -38,13 +38,11 @@ jobs:
         echo "latest_tag=${latest_tag}" >> $GITHUB_ENV
 
     - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        MY_TOKEN: ${{ secrets.MY_TOKEN }}
+      uses: meeDamian/github-release@2.0
       with:
-        tag_name: ${{ env.latest_tag }}
-        release_name: Release ${{ env.latest_tag }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ env.latest_tag }}
+        name: Release ${{ env.latest_tag }}
         body: Automated release of Nekoray ${{ env.latest_tag }}
         draft: false
         prerelease: ${{ contains(env.latest_tag, 'pre') }}
