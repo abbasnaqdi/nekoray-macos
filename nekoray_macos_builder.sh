@@ -47,6 +47,7 @@ export PATH="/usr/local/opt/qt@5/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/qt@5/lib"
 export CPPFLAGS="-I/usr/local/opt/qt@5/include"
 export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
+export MACOSX_DEPLOYMENT_TARGET="10.9"
 
 nRoot="$(pwd)"
 nPath="$(pwd)/nekoray"

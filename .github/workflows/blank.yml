@@ -1,15 +1,32 @@
 name: Build and Release Nekoray
 
 on:
+  schedule:
+    - cron: '0 0 * * *'  # Run every day at midnight UTC
   push:
     branches: [main]
 
 jobs:
+  check_tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check latest tag
+        id: check_tag
+        run: |
+          tag1=$(curl -s https://api.github.com/repos/MatsuriDayo/nekoray/tags | jq -r '.[0].name')
+          tag2=$(curl -s https://api.github.com/repos/$GITHUB_REPOSITORY/tags | jq -r '.[0].name')
+          echo "Latest tag on MatsuriDayo/nekoray: $tag1"
+          echo "Latest tag on this repository: $tag2"
+          if [[ "$tag1" == "$tag2" ]]; then
+            echo "Latest tags match! Aborting workflow."
+            exit 1
+          fi
+          
   build:
     runs-on: macos-latest
-
-    env:
-      MACOSX_DEPLOYMENT_TARGET: 10.15
+    needs: check_tag
 
     steps:
       - uses: actions/checkout@v2
