@@ -17,7 +17,6 @@ jobs:
       - name: Build Nekoray
         run: |
           bash nekoray_macos_builder.sh
-
       - name: Upload Artifact for amd64
         uses: actions/upload-artifact@v2
         with:
@@ -33,6 +32,13 @@ jobs:
   create_release:
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      contents: write
+      packages: write
+      actions: read
+      pull-requests: write
+      issues: write
+
 
     steps:
       - name: Check latest tag
@@ -41,6 +47,15 @@ jobs:
           latest_tag=$(git ls-remote --tags --sort=-v:refname https://github.com/MatsuriDayo/nekoray.git | head -n1 | awk '{print $2}' | sed 's/refs\/tags\///')
           echo "Latest tag is ${latest_tag}"
           echo "latest_tag=${latest_tag}" >> $GITHUB_ENV
+      - name: Create Release
+        uses: meeDamian/github-release@2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.latest_tag }}
+          name: Release ${{ env.latest_tag }}
+          body: Automated release of Nekoray ${{ env.latest_tag }}
+          draft: false
+          prerelease: ${{ contains(env.latest_tag, 'pre') }}
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
