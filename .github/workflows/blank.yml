@@ -44,13 +44,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: nekoray_amd64
-          path: nekoray_amd64.zip
+          path: ./
 
       - name: Download Artifact for arm64
         uses: actions/download-artifact@v2
         with:
           name: nekoray_arm64
-          path: nekoray_arm64.zip
+          path: ./
 
       - name: Check latest tag
         id: check_tag
