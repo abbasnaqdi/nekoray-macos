@@ -43,16 +43,6 @@ jobs:
           echo "latest_tag=${latest_tag}" >> $GITHUB_ENV
 
       - name: Create Release
-        uses: meeDamian/github-release@2.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.latest_tag }}
-          name: Release ${{ env.latest_tag }}
-          body: Automated release of Nekoray ${{ env.latest_tag }}
-          draft: false
-          prerelease: ${{ contains(env.latest_tag, 'pre') }}
-
-      - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
