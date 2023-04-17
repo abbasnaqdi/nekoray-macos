@@ -52,24 +52,14 @@ jobs:
           draft: false
           prerelease: ${{ contains(env.latest_tag, 'pre') }}
 
-      - name: Upload Release Asset for amd64
-        id: upload-release-asset-amd64
-        uses: actions/upload-release-asset@v1
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            nekoray/build/nekoray_amd64.zip
+            nekoray/build/nekoray_arm64.zip
+          name: Release ${{ env.latest_tag }}
+          body: Automated release of Nekoray ${{ env.latest_tag }}
+          prerelease: ${{ contains(env.latest_tag, 'pre') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: nekoray/build/nekoray_amd64.zip
-          asset_name: nekoray_amd64.zip
-          asset_content_type: application/zip
-
-      - name: Upload Release Asset for arm64
-        id: upload-release-asset-arm64
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: nekoray/build/nekoray_arm64.zip
-          asset_name: nekoray_arm64.zip
-          asset_content_type: application/zip
