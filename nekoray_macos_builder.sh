@@ -18,8 +18,8 @@ clone_or_update_with_tag() {
   fi
 }
 
-clone_or_update_with_tag "nekoray" "git@github.com:MatsuriDayo/nekoray.git"
-clone_or_update_with_tag "v2ray-core" "git@github.com:MatsuriDayo/v2ray-core.git"
+clone_or_update_with_tag "nekoray" "https://github.com/MatsuriDayo/nekoray.git"
+clone_or_update_with_tag "v2ray-core" "https://github.com/MatsuriDayo/v2ray-core.git"
 
 # Install dependencies if they are not already installed
 
