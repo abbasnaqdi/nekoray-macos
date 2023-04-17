@@ -14,7 +14,7 @@ jobs:
       - name: Check latest tag
         id: check_tag
         run: |
-          tag1=$(curl -s https://api.github.com/repos/MatsuriDayo/nekoray/releases/latest | jq -r '.tag_name')
+          tag1=$(curl -s https://api.github.com/repos/MatsuriDayo/nekoray/tags | jq -r '.[0].name')
           tag2=$(git describe --abbrev=0 --tags)
           echo "Latest tag on MatsuriDayo/nekoray: $tag1"
           echo "Latest tag on this repository: $tag2"
@@ -25,6 +25,7 @@ jobs:
           
   build:
     runs-on: macos-latest
+    needs: check_tag
 
     env:
       MACOSX_DEPLOYMENT_TARGET: 10.15
