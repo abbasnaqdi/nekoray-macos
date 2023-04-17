@@ -83,8 +83,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.latest_tag }}
-          release_name: Release ${{ env.latest_tag }}
-          body: Automated release of Nekoray ${{ env.latest_tag }}
+          release_name: ${{ env.latest_tag }} macOS
+          body: Built on the original repository. ${{ env.latest_tag }}
           draft: false
           prerelease: ${{ contains(env.latest_tag, 'pre') }}
 
