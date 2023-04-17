@@ -48,6 +48,7 @@ export LDFLAGS="-L/usr/local/opt/qt@5/lib"
 export CPPFLAGS="-I/usr/local/opt/qt@5/include"
 export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
 
+nRoot="$(pwd)"
 nPath="$(pwd)/nekoray"
 
 # Create or clean build directory
@@ -101,11 +102,25 @@ done
 
 rm -rf $nApp
 
+neko_common="github.com/matsuridayo/libneko/neko_common"
+cd $nRoot/v2ray-core
+version_v2ray=$(git log --pretty=format:'%h' -n 1)
+cd $nPath
+version_standalone="nekoray-"$(cat $nPath/nekoray_version.txt)
+
+
 # Build nekobox_core and nekoray_core for both amd64 and arm64
 for cmd in "nekobox_core" "nekoray_core"; do
   for arch in "amd64" "arm64"; do
     cd "$nPath/go/cmd/$cmd"
-    GOARCH="$arch" go build -trimpath -ldflags "-w -s" -o "${cmd}_${arch}"
+    GOARCH="$arch"
+
+    if [ "$cmd" = "nekoray_core" ]; then
+      go build -o "${cmd}_${arch}" -trimpath -ldflags "-w -s -X $neko_common.Version_v2ray=$version_v2ray -X $neko_common.Version_neko=$version_standalone"
+    else
+      go build -o "${cmd}_${arch}" -trimpath -ldflags "-w -s -X $neko_common.Version_neko=$version_standalone" -tags "with_grpc,with_gvisor,with_quic,with_wireguard,with_utls,with_clash_api"
+    fi
+
     cp "${cmd}_${arch}" "$nPath/build/nekoray_$arch.app/Contents/MacOS/$cmd"
   done
 done
