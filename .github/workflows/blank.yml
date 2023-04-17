@@ -28,9 +28,6 @@ jobs:
     runs-on: macos-latest
     needs: check_tag
 
-    env:
-      MACOSX_DEPLOYMENT_TARGET: 10.15
-
     steps:
       - uses: actions/checkout@v2
 
