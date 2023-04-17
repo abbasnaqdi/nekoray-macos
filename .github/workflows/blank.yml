@@ -16,7 +16,7 @@ jobs:
         id: check_tag
         run: |
           tag1=$(curl -s https://api.github.com/repos/MatsuriDayo/nekoray/tags | jq -r '.[0].name')
-          tag2=$(git describe --abbrev=0 --tags)
+          tag2=$(curl -s https://api.github.com/repos/Stevemoretz/nekoray-macos/tags | jq -r '.[0].name')
           echo "Latest tag on MatsuriDayo/nekoray: $tag1"
           echo "Latest tag on this repository: $tag2"
           if [[ "$tag1" == "$tag2" ]]; then
