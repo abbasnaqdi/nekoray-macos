@@ -84,7 +84,8 @@ jobs:
           releases=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.latest_tag }})
           if [[ -n $releases && $releases != *"Not Found"* ]]; then
             echo "Release ${{env.latest_tag}} already exists, deleting..."
-            release_id=$(echo $releases | jq -r .[0].id)
+            release_id=$(echo $releases | jq -r .id)
+            release_id=$(echo $releases | jq -r '.[].id')
             curl -X DELETE -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/releases/$release_id
             curl -X DELETE -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/git/refs/tags/${{ env.latest_tag }}" || true
           fi
