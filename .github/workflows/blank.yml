@@ -76,32 +76,20 @@ jobs:
           echo "Latest tag is ${latest_tag}"
           echo "latest_tag=${latest_tag}" >> $GITHUB_ENV
 
-      - name: Check if release with same tag exists
-        id: check_release
-        uses: repo-sync/github-tag-action@v2.0.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.latest_tag }}
-          include_prereleases: true
-
-      - name: Delete existing release
-        if: steps.check_release.outputs.release_id != ''
-        run: |
-          echo "Deleting release with tag ${latest_tag}..."
-          curl -X DELETE -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/releases/${{ steps.check_release.outputs.release_id }}
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Create or Update Release
+        uses: marvinpinto/action-automatic-releases@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.repository }}
           tag_name: ${{ env.latest_tag }}
           release_name: ${{ env.latest_tag }} macOS
-          body: Built on the original repository. ${{ env.latest_tag }}
-          draft: false
+          body: |
+            Built on the original repository. ${{ env.latest_tag }}
           prerelease: ${{ contains(env.latest_tag, 'pre') }}
-
+          delete_existing: false
+          
       - name: Upload Release Asset for amd64
         id: upload_release_asset_amd64
         uses: actions/upload-release-asset@v1
