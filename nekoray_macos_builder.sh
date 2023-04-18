@@ -128,7 +128,9 @@ done
 
 #zip nekoray by arch
 for arch in "amd64" "arm64"; do
-  zip -jr "$nPath/build/nekoray_$arch.zip" "$nPath/build/nekoray_$arch.app"
+  cd "$nPath/build"
+  zip -r "nekoray_$arch.zip" "nekoray_$arch.app"
+  cd -
 done
 
 echo "Build finished and output files are in $nPath/build"
