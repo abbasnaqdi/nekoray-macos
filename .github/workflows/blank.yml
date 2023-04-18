@@ -76,19 +76,30 @@ jobs:
           echo "Latest tag is ${latest_tag}"
           echo "latest_tag=${latest_tag}" >> $GITHUB_ENV
 
-      - name: Create or Update Release
-        uses: marvinpinto/action-automatic-releases@latest
+      - name: Check if release already exists
+        id: check_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          releases=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.latest_tag }})
+          if [[ -n $releases ]]; then
+            echo "Release ${env.latest_tag} already exists, deleting..."
+            release_id=$(echo $releases | jq -r .[0].id)
+            curl -X DELETE -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/releases/$release_id
+            curl -X DELETE -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/git/refs/tags/${{ env.latest_tag }}" || true
+          fi
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          owner: ${{ github.repository_owner }}
-          repo: ${{ github.repository }}
           tag_name: ${{ env.latest_tag }}
           release_name: ${{ env.latest_tag }} macOS
-          body: |
-            Built on the original repository. ${{ env.latest_tag }}
+          body: Built on the original repository. ${{ env.latest_tag }}
+          draft: false
           prerelease: ${{ contains(env.latest_tag, 'pre') }}
-          delete_existing: false
           
       - name: Upload Release Asset for amd64
         id: upload_release_asset_amd64
