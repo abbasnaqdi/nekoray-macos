@@ -87,6 +87,7 @@ jobs:
             release_id=$(echo $releases | jq -r .id)
             curl -X DELETE -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/releases/$release_id
             curl -X DELETE -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/git/refs/tags/${{ env.latest_tag }}" || true
+            sleep 10
           fi
 
       - name: Create Release
@@ -99,6 +100,7 @@ jobs:
           release_name: ${{ env.latest_tag }} macOS
           body: Built on the original repository. ${{ env.latest_tag }}
           draft: false
+          published: true
           prerelease: ${{ contains(env.latest_tag, 'pre') }}
           
       - name: Upload Release Asset for amd64
