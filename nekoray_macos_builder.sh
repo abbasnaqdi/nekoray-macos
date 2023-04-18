@@ -132,6 +132,18 @@ for arch in "amd64" "arm64"; do
   zip -r "nekoray_$arch.zip" "nekoray_$arch.app"
   cd -
 done
+if [ -z "$GITHUB_ACTIONS" ]; then
+  for arch in "amd64" "arm64"; do
+    TEMP_PATH=$(pwd)
+    cd "$nPath/build"
+    zip -r "nekoray_$arch.zip" "nekoray_$arch.app"
+    cd "$TEMP_PATH"
+  done
+else
+  for arch in "amd64" "arm64"; do
+    zip -r "$nPath/build/nekoray_$arch.zip" "$nPath/build/nekoray_$arch.app"
+  done
+fi
 
 echo "Build finished and output files are in $nPath/build"
 cd "$nPath"
