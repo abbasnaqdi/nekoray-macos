@@ -127,7 +127,7 @@ for cmd in "nekobox_core" "nekoray_core"; do
 done
 
 #zip nekoray by arch
-if [ -z "$GITHUB_ACTIONS" ]; then
+if [ -n "$GITHUB_ACTIONS" ]; then
   for arch in "amd64" "arm64"; do
     TEMP_PATH=$(pwd)
     cd "$nPath/build"
