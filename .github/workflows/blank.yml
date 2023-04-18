@@ -9,11 +9,11 @@ on:
 jobs:
   check_tag:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: Check latest tag
         id: check_tag
+        if: github.event_name != 'push'
         run: |
           tag1=$(curl -s https://api.github.com/repos/MatsuriDayo/nekoray/tags | jq -r '.[0].name')
           tag2=$(curl -s https://api.github.com/repos/$GITHUB_REPOSITORY/tags | jq -r '.[0].name')
@@ -46,9 +46,41 @@ jobs:
           name: nekoray_arm64
           path: nekoray/build/nekoray_arm64.zip
 
+  test:
+    strategy:
+      matrix:
+        os: [macos-10.15, macos-11, macos-12]
+        arch: [amd64, arm64]
+
+    runs-on: ${{ matrix.os }}
+    needs: build
+
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: nekoray_${{ matrix.arch }}
+          path: ./
+
+      - name: Unzip Artifact
+        run: |
+          unzip -q nekoray_${{ matrix.arch }}.zip
+          mv nekoray_${{ matrix.arch }}.app nekoray.app
+
+      - name: Run Nekoray
+        run: |
+          ./nekoray.app/Contents/MacOS/nekoray > nekoray.log 2>&1 &
+          nekoray_pid=$!
+          sleep 10
+          if ! ps -p "$nekoray_pid" > /dev/null; then
+            echo "Nekoray failed to stay open for 10 seconds."
+            cat nekoray.log
+            exit 1
+          fi
+
   create_release:
     runs-on: ubuntu-latest
-    needs: build
+    needs: test
     permissions:
       contents: write
       packages: write
@@ -76,6 +108,20 @@ jobs:
           echo "Latest tag is ${latest_tag}"
           echo "latest_tag=${latest_tag}" >> $GITHUB_ENV
 
+      - name: Check if release already exists
+        id: check_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          releases=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.latest_tag }})
+          if [[ -n $releases && $releases != *"Not Found"* ]]; then
+            echo "Release ${{env.latest_tag}} already exists, deleting..."
+            release_id=$(echo $releases | jq -r .id)
+            curl -X DELETE -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/releases/$release_id
+            curl -X DELETE -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/git/refs/tags/${{ env.latest_tag }}" || true
+            sleep 10
+          fi
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -86,8 +132,9 @@ jobs:
           release_name: ${{ env.latest_tag }} macOS
           body: Built on the original repository. ${{ env.latest_tag }}
           draft: false
+          published: true
           prerelease: ${{ contains(env.latest_tag, 'pre') }}
-
+          
       - name: Upload Release Asset for amd64
         id: upload_release_asset_amd64
         uses: actions/upload-release-asset@v1
