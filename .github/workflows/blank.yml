@@ -33,7 +33,7 @@ jobs:
 
       - name: Build Nekoray
         run: |
-          bash nekoray_macos_builder.sh
+          bash builder.sh
       - name: Upload Artifact for amd64
         uses: actions/upload-artifact@v2
         with:
