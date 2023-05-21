@@ -2,7 +2,14 @@
 
 set -e
 
+# first initialize and configure
 export MACOSX_DEPLOYMENT_TARGET="10.13"
+
+# if this script running in github action then
+# remove unessary directories (nekoray, v2ray-core, sing-box-extra, sing-box, libneko)
+if [ -n "$GITHUB_ACTIONS" ]; then
+  rm -rf nekoray v2ray-core sing-box-extra sing-box libneko
+fi
 
 # Clone or update repositories
 clone_last_valid_source() {
@@ -96,6 +103,11 @@ curl -fLso $nApp/Contents/MacOS/geosite.db "https://github.com/SagerNet/sing-geo
 for file in "fa_IR.qm" "zh_CN.qm"; do
   cp "$nPath/build/$file" "$nApp/Contents/MacOS"
 done
+
+# remove updater shortcut
+cd $nApp/Contents/MacOS/
+rm updater
+cd $nPath
 
 # Build nekoray for both amd64 and arm64
 for arch in "amd64" "arm64"; do
