@@ -32,4 +32,4 @@ export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
 check_and_install "macdeployqt" "qt@5"
 
 # golang dependencies
-go get github.com/sagernet/sing-box/experimental/clashapi/trafficontrol@v1.0.0
+# go get github.com/sagernet/sing-box/experimental/clashapi/trafficontrol@v1.0.0

@@ -3,11 +3,11 @@
 # set environment variables from sh file
 source config_environment.sh
 
-cd "$nPath/build"
+cd "$nTemp/build"
 cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DNKR_PACKAGE_MACOS=1 ..
 ninja
 
-cd $nPath
+cd $nTemp
 
 # Deploy frameworks using macdeployqt
 macdeployqt "$nApp" -verbose=3
@@ -20,7 +20,7 @@ curl -fLso $nApp/Contents/MacOS/geosite.db "https://github.com/SagerNet/sing-geo
 
 # copy fa_IR.qm and zh_CN.qm to nekoray.app/Contents/MacOS
 for file in "fa_IR.qm" "zh_CN.qm"; do
-  cp "$nPath/build/$file" "$nApp/Contents/MacOS"
+  cp "$nTemp/build/$file" "$nApp/Contents/MacOS"
 done
 
 # remove updater shortcut with check if exist
@@ -28,12 +28,12 @@ cd $nApp/Contents/MacOS/
 if [ -f "updater" ]; then
   rm updater
 fi
-cd $nPath
+cd $nTemp
 
 # Build nekoray for both amd64 and arm64
 for arch in "amd64" "arm64"; do
-  rm -rf "$nPath/build/nekoray_$arch.app"
-  cp -r $nApp "$nPath/build/nekoray_$arch.app"
+  rm -rf "$nTemp/build/nekoray_$arch.app"
+  cp -r $nApp "$nTemp/build/nekoray_$arch.app"
 done
 
 rm -rf $nApp
