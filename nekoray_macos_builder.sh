@@ -6,9 +6,23 @@ set -e
 export MACOSX_DEPLOYMENT_TARGET="10.13"
 
 # if this script running in github action then
-# remove unessary directories (nekoray, v2ray-core, sing-box-extra, sing-box, libneko)
+# remove unessary directories with check if exist (nekoray, v2ray-core, sing-box-extra, sing-box, libneko)
 if [ -n "$GITHUB_ACTIONS" ]; then
-  rm -rf nekoray v2ray-core sing-box-extra sing-box libneko
+  if [ -d "nekoray" ]; then
+    rm -rf nekoray
+  fi
+  if [ -d "v2ray-core" ]; then
+    rm -rf v2ray-core
+  fi
+  if [ -d "sing-box-extra" ]; then
+    rm -rf sing-box-extra
+  fi
+  if [ -d "sing-box" ]; then
+    rm -rf sing-box
+  fi
+  if [ -d "libneko" ]; then
+    rm -rf libneko
+  fi
 fi
 
 # Clone or update repositories
@@ -104,9 +118,11 @@ for file in "fa_IR.qm" "zh_CN.qm"; do
   cp "$nPath/build/$file" "$nApp/Contents/MacOS"
 done
 
-# remove updater shortcut
+# remove updater shortcut with check if exist
 cd $nApp/Contents/MacOS/
-rm updater
+if [ -f "updater" ]; then
+  rm updater
+fi
 cd $nPath
 
 # Build nekoray for both amd64 and arm64
