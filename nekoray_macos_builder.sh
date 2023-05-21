@@ -20,6 +20,9 @@ clone_or_update_with_tag() {
 
 clone_or_update_with_tag "nekoray" "https://github.com/MatsuriDayo/nekoray.git"
 clone_or_update_with_tag "v2ray-core" "https://github.com/MatsuriDayo/v2ray-core.git"
+clone_or_update_with_tag "sing-box-extra" "https://github.com/MatsuriDayo/sing-box-extra.git"
+clone_or_update_with_tag "sing-box" "https://github.com/MatsuriDayo/sing-box.git"
+clone_or_update_with_tag "libneko" "https://github.com/MatsuriDayo/libneko.git"
 
 # Install dependencies if they are not already installed
 
@@ -117,9 +120,9 @@ for cmd in "nekobox_core" "nekoray_core"; do
     GOARCH="$arch"
 
     if [ "$cmd" = "nekoray_core" ]; then
-      go build -o "${cmd}_${arch}" -trimpath -ldflags "-w -s -X $neko_common.Version_v2ray=$version_v2ray -X $neko_common.Version_neko=$version_standalone"
+      go build -o -v "${cmd}_${arch}" -trimpath -ldflags "-w -s -X $neko_common.Version_v2ray=$version_v2ray -X $neko_common.Version_neko=$version_standalone"
     else
-      go build -o "${cmd}_${arch}" -trimpath -ldflags "-w -s -X $neko_common.Version_neko=$version_standalone" -tags "with_grpc,with_gvisor,with_quic,with_wireguard,with_utls,with_clash_api"
+      go build -o -v "${cmd}_${arch}" -trimpath -ldflags "-w -s -X $neko_common.Version_neko=$version_standalone" -tags "with_grpc,with_gvisor,with_quic,with_wireguard,with_utls,with_clash_api"
     fi
 
     cp "${cmd}_${arch}" "$nPath/build/nekoray_$arch.app/Contents/MacOS/$cmd"
