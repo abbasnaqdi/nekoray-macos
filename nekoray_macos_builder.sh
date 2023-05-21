@@ -2,6 +2,8 @@
 
 set -e
 
+export MACOSX_DEPLOYMENT_TARGET="10.13"
+
 # Clone or update repositories
 clone_last_valid_source() {
   local repo="$1"
@@ -48,10 +50,8 @@ export PATH="/usr/local/opt/qt@5/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/qt@5/lib"
 export CPPFLAGS="-I/usr/local/opt/qt@5/include"
 export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
-export MACOSX_DEPLOYMENT_TARGET="10.13"
 
 check_and_install "macdeployqt" "qt@5"
-
 
 nRoot="$(pwd)"
 nPath="$(pwd)/nekoray"
@@ -119,9 +119,9 @@ for cmd in "nekobox_core" "nekoray_core"; do
     GOARCH="$arch"
 
     if [ "$cmd" = "nekoray_core" ]; then
-      go build -o -v "${cmd}_${arch}" -trimpath -ldflags "-w -s -X $neko_common.Version_v2ray=$version_v2ray -X $neko_common.Version_neko=$version_standalone"
+      go build -o "${cmd}_${arch}" -v -trimpath -ldflags "-w -s -X $neko_common.Version_v2ray=$version_v2ray -X $neko_common.Version_neko=$version_standalone"
     else
-      go build -o -v "${cmd}_${arch}" -trimpath -ldflags "-w -s -X $neko_common.Version_neko=$version_standalone" -tags "with_grpc,with_gvisor,with_quic,with_wireguard,with_utls,with_clash_api"
+      go build -o "${cmd}_${arch}" -v -trimpath -ldflags "-w -s -X $neko_common.Version_neko=$version_standalone" -tags "with_grpc,with_gvisor,with_quic,with_wireguard,with_utls,with_clash_api"
     fi
 
     cp "${cmd}_${arch}" "$nPath/build/nekoray_$arch.app/Contents/MacOS/$cmd"
