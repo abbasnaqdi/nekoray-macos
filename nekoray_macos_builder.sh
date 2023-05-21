@@ -3,8 +3,7 @@
 set -e
 
 # Clone or update repositories
-
-clone_or_update_with_tag() {
+clone_last_valid_source() {
   local repo="$1"
   local url="$2"
   if [ -d "$repo" ]; then
@@ -18,11 +17,11 @@ clone_or_update_with_tag() {
   fi
 }
 
-clone_or_update_with_tag "nekoray" "https://github.com/MatsuriDayo/nekoray.git"
-clone_or_update_with_tag "v2ray-core" "https://github.com/MatsuriDayo/v2ray-core.git"
-clone_or_update_with_tag "sing-box-extra" "https://github.com/MatsuriDayo/sing-box-extra.git"
-clone_or_update_with_tag "sing-box" "https://github.com/MatsuriDayo/sing-box.git"
-clone_or_update_with_tag "libneko" "https://github.com/MatsuriDayo/libneko.git"
+clone_last_valid_source "nekoray" "https://github.com/MatsuriDayo/nekoray.git"
+clone_last_valid_source "v2ray-core" "https://github.com/MatsuriDayo/v2ray-core.git"
+clone_last_valid_source "sing-box-extra" "https://github.com/MatsuriDayo/sing-box-extra.git"
+clone_last_valid_source "sing-box" "https://github.com/MatsuriDayo/sing-box.git"
+clone_last_valid_source "libneko" "https://github.com/MatsuriDayo/libneko.git"
 
 # Install dependencies if they are not already installed
 
@@ -43,14 +42,16 @@ check_and_install "cmake" "cmake"
 check_and_install "ninja" "ninja"
 check_and_install "go" "go"
 check_and_install "curl" "curl"
-check_and_install "macdeployqt" "qt@5"
 
 # Set environment variables
 export PATH="/usr/local/opt/qt@5/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/qt@5/lib"
 export CPPFLAGS="-I/usr/local/opt/qt@5/include"
 export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
-export MACOSX_DEPLOYMENT_TARGET="10.9"
+export MACOSX_DEPLOYMENT_TARGET="10.13"
+
+check_and_install "macdeployqt" "qt@5"
+
 
 nRoot="$(pwd)"
 nPath="$(pwd)/nekoray"
@@ -83,9 +84,7 @@ cd $nPath
 nApp=$nPath/build/nekoray.app
 
 # Deploy frameworks using macdeployqt
-for arch in "amd64" "arm64"; do
-  macdeployqt "$nApp" -verbose=1
-done
+macdeployqt "$nApp" -verbose=3
 
 # Download data files for both amd64 and arm64
 curl -fLso $nApp/Contents/MacOS/geoip.dat "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
