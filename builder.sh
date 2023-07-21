@@ -43,7 +43,6 @@ for repo_info in "${repos[@]}"; do
 done
 
 
-
 # Check and install dependencies if not already installed
 
 command -v "brew" >/dev/null 2>&1 || {
@@ -92,8 +91,9 @@ fi
 mkdir -p "$nPath/build"
 
 # Get and build dependencies
-alias libs='$(nPath)/libs'
-bash $nPath/libs/build_deps_all.sh
+cd $nPath
+bash libs/get_source.sh
+bash libs/build_deps_all.sh
 
 # Build nekoray using CMake and Ninja
 cd "$nPath/build"
@@ -137,12 +137,11 @@ version_v2ray=$(git log --pretty=format:'%h' -n 1)
 cd "$nPath"
 version_standalone="nekoray-"$(cat "$nPath/nekoray_version.txt")
 
-# Build nekobox_core and nekoray_core for both amd64 and arm64
-GOOS="darwin" GOARCH=amd64 bash $nPath/libs/build_go.sh
-GOOS="darwin" GOARCH=arm64 bash $nPath/libs/build_go.sh
 
+# Build nekobox_core and nekoray_core for both amd64 and arm64
 for arch in "amd64" "arm64"; do
-  cp "${nPath}/deployment/macos-${arch}/*" "$nPath/build/nekoray_$arch.app/Contents/MacOS/"
+  GOOS="darwin" GOARCH=$arch bash libs/build_go.sh
+  cp -a "$nPath/deployment/macos-$arch/." "$nPath/build/nekoray_$arch.app/Contents/MacOS/"
 done
 
 # Zip nekoray by arch
