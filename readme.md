@@ -23,7 +23,7 @@ Each version is based on the latest version released in the main repository for 
 
 [![Donate](https://img.shields.io/badge/USDT-Donate-green)]() `TAewZVAD4eKjPo9uJ5TesxJUrXiBtVATsK`
 
-[![Donate](https://img.shields.io/badge/IDPay-Donate-blue)]() (ریال) https://idpay.ir/aaaamirabbas
+[![Donate](https://img.shields.io/badge/IDPay-Donate-blue)]() (Rial)(ریال) https://idpay.ir/aaaamirabbas
 
 
 
