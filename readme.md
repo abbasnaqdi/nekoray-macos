@@ -5,7 +5,6 @@ This script is made to build **[https://github.com/MatsuriDayo/nekoray](https://
 Each version is based on the latest version released in the main repository for both `amd64` and `arm64 `architecture.
 
 
-
 ### How to use
 
 ```bash
