@@ -92,6 +92,7 @@ mkdir -p "$nPath/build"
 
 # Get and build dependencies
 cd $nPath
+bash libs/get_source.sh
 bash libs/build_deps_all.sh
 
 # Build nekoray using CMake and Ninja
@@ -136,12 +137,11 @@ version_v2ray=$(git log --pretty=format:'%h' -n 1)
 cd "$nPath"
 version_standalone="nekoray-"$(cat "$nPath/nekoray_version.txt")
 
-# Build nekobox_core and nekoray_core for both amd64 and arm64
-GOOS="darwin" GOARCH=amd64 bash $nPath/build_go.sh
-GOOS="darwin" GOARCH=arm64 bash $nPath/build_go.sh
 
+# Build nekobox_core and nekoray_core for both amd64 and arm64
 for arch in "amd64" "arm64"; do
-  cp "${nPath}/deployment/macos-${arch}/*" "$nPath/build/nekoray_$arch.app/Contents/MacOS/"
+  GOOS="darwin" GOARCH=$arch bash libs/build_go.sh
+  cp -a "$nPath/deployment/macos-$arch/." "$nPath/build/nekoray_$arch.app/Contents/MacOS/"
 done
 
 # Zip nekoray by arch
