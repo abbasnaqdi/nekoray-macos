@@ -129,7 +129,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.latest_tag }}
-          release_name: ${{ env.latest_tag }} macOS
+          release_name: ${{ env.latest_tag }} macOS (Intel + Apple)
           body: Built on the original repository. ${{ env.latest_tag }}
           draft: false
           published: true
