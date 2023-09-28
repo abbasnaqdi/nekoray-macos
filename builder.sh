@@ -10,6 +10,10 @@ if [ -n "$GITHUB_ACTIONS" ]; then
   for dir in "nekoray" "v2ray-core" "sing-box-extra" "sing-box" "libneko" "Xray-core"; do
     [ -d "$dir" ] && rm -rf "$dir"
   done
+else
+  if ! rmdir nekoray v2ray-core sing-box-extra sing-box libneko Xray-core 2> /dev/null; then
+    echo "clean and ready..."
+  fi
 fi
 
 # Clone or update repositories with a function
@@ -29,11 +33,7 @@ clone_or_update_repo() {
 
 # Array to store repository URLs
 repos=("nekoray=https://github.com/MatsuriDayo/nekoray.git"
-       "v2ray-core=https://github.com/MatsuriDayo/v2ray-core.git"
-       "sing-box-extra=https://github.com/MatsuriDayo/sing-box-extra.git"
-       "sing-box=https://github.com/MatsuriDayo/sing-box.git"
-       "libneko=https://github.com/MatsuriDayo/libneko.git"
-       "Xray-core=https://github.com/MatsuriDayo/Xray-core.git")
+       "v2ray-core=https://github.com/MatsuriDayo/v2ray-core.git")
 
 # Clone or update repositories using the function
 for repo_info in "${repos[@]}"; do
@@ -70,7 +70,8 @@ done
 export PATH="/usr/local/opt/qt@5/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/qt@5/lib"
 export CPPFLAGS="-I/usr/local/opt/qt@5/include"
-export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
+export QT_QPA_PLATFORM_PLUGIN_PATH="/usr/local/opt/qt@5/plugins"
+# export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
 
 # Install macdeployqt for macOS
 check_and_install "macdeployqt" "qt@5"
@@ -114,7 +115,7 @@ curl -fLso "$nApp/Contents/MacOS/geoip.db" "https://github.com/SagerNet/sing-geo
 curl -fLso "$nApp/Contents/MacOS/geosite.db" "https://github.com/SagerNet/sing-geosite/releases/latest/download/geosite.db"
 
 # Copy fa_IR.qm and zh_CN.qm to nekoray.app/Contents/MacOS
-for file in "fa_IR.qm" "zh_CN.qm"; do
+for file in "fa_IR.qm" "zh_CN.qm" "ru_RU.qm"; do
   cp "$nPath/build/$file" "$nApp/Contents/MacOS"
 done
 
