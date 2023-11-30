@@ -66,6 +66,10 @@ for dep in "${dependencies[@]}"; do
   check_and_install "$dep" "$dep"
 done
 
+# Replace golang
+brew unlink go@1.20
+brew link --overwrite go
+
 # Set environment variables for Qt5
 export PATH="/usr/local/opt/qt@5/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/qt@5/lib"
