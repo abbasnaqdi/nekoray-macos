@@ -23,7 +23,7 @@ jobs:
           fi
           
   build:
-    runs-on: macos-latest
+    runs-on: macos-13
     needs: check_tag
 
     steps:
