@@ -59,7 +59,7 @@ check_and_install() {
 }
 
 # Remove previous golang
-brew uninstall go
+brew uninstall go 
 brew unlink go@1.20
 
 # Array to store dependencies
