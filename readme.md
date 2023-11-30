@@ -1,4 +1,6 @@
-### NekoRay builder script for macOS
+### NekoRay/NekoBox builder script for macOS
+
+**I have a sponsor to use github enterprise services to use arm runners (please contact me)**
 
 This script is made to build **[https://github.com/MatsuriDayo/nekoray](https://github.com/MatsuriDayo/nekoray)** software for use on **`macOS`** operating system.
 
@@ -11,7 +13,7 @@ Each version is based on the latest version released in the main repository for 
 bash builder.sh
 ```
 
-#### Donate
+#### Donate (For more motivation)
 
 [![Donate](https://img.shields.io/badge/BTC-Donate-green)]()  `1HPZyUP9EJZi2S87QrvCDrE47qRV4i5Fze`
 
