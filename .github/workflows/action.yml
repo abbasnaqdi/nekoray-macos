@@ -26,17 +26,12 @@ jobs:
 
           
   build:
-    runs-on: macos-latest
+    runs-on: macos-13
     needs: check_tag
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Uninstall existing Go
-        run: |
-          echo "$(command -v go)"
-          sudo rm -rf "$(dirname $(dirname $(command -v go)))"
-
+      
       - name: Build Nekoray
         run: |
           bash builder.sh
