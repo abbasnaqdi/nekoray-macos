@@ -59,6 +59,7 @@ check_and_install() {
 }
 
 # Remove previous golang
+go version
 brew uninstall go 
 brew unlink go@1.20
 
