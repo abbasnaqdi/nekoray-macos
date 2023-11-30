@@ -34,9 +34,8 @@ jobs:
 
       - name: Uninstall existing Go
         run: |
-          echo $(where go)
-          sudo rm -rf $(where go)
-          brew uninstall go
+          echo "$(command -v go)"
+          sudo rm -rf "$(dirname $(dirname $(command -v go)))"
 
       - name: Build Nekoray
         run: |
