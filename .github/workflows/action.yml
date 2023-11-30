@@ -1,4 +1,4 @@
-name: Build and Release Nekoray
+name: Build and release NekoRay / NekoBox
 
 on:
   schedule:
@@ -25,48 +25,88 @@ jobs:
           fi
 
           
-  build:
+  build_and_upload_amd64:
     runs-on: macos-13
     needs: check_tag
 
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Build Nekoray
+      - name: Build amd64 nekoray
         run: |
           bash builder.sh
-      - name: Upload Artifact for amd64
+
+      - name: Upload amd64 artifact
         uses: actions/upload-artifact@v2
         with:
           name: nekoray_amd64
           path: nekoray/build/nekoray_amd64.zip
 
-      - name: Upload Artifact for arm64
+  build_and_upload_arm64:
+    runs-on: macos-13-xlarge
+    needs: check_tag
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build arm64 nekoray
+        run: |
+          bash builder.sh
+
+      - name: Upload arm64 artifact
         uses: actions/upload-artifact@v2
         with:
           name: nekoray_arm64
           path: nekoray/build/nekoray_arm64.zip
 
-  test:
+  test_amd64:
     strategy:
       matrix:
-        os: [macos-11, macos-12, macos-13, macos-14]
-        arch: [amd64, arm64]
+        os: [macos-11, macos-12, macos-13]
 
     runs-on: ${{ matrix.os }}
-    needs: build
+    needs: build_and_upload_amd64
 
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v2
         with:
-          name: nekoray_${{ matrix.arch }}
+          name: nekoray_amd64
           path: ./
 
       - name: Unzip Artifact
         run: |
-          unzip -q nekoray_${{ matrix.arch }}.zip
-          mv nekoray_${{ matrix.arch }}.app nekoray.app
+          unzip -q nekoray_amd64.zip
+          mv nekoray_amd64.app nekoray.app
+
+      - name: Run Nekoray
+        run: |
+          ./nekoray.app/Contents/MacOS/nekoray > nekoray.log 2>&1 &
+          nekoray_pid=$!
+          sleep 10
+          if ! ps -p "$nekoray_pid" > /dev/null; then
+            echo "Nekoray failed to stay open for 10 seconds."
+            cat nekoray.log
+            exit 1
+          fi
+
+  test_arm64:
+    strategy:
+      matrix:
+        os: [macos-13]
+
+    runs-on: ${{ matrix.os }}
+    needs: build_and_upload_arm64
+
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: nekoray_arm64
+          path: ./
+
+      - name: Unzip Artifact
+        run: |
+          unzip -q nekoray_arm64.zip
+          mv nekoray_arm64.app nekoray.app
 
       - name: Run Nekoray
         run: |
@@ -81,7 +121,7 @@ jobs:
 
   create_release:
     runs-on: ubuntu-latest
-    needs: test
+    needs: [test_amd64, test_arm64]
     permissions:
       contents: write
       packages: write
@@ -90,13 +130,13 @@ jobs:
       issues: write
 
     steps:
-      - name: Download Artifact for amd64
+      - name: download artifact for amd64
         uses: actions/download-artifact@v2
         with:
           name: nekoray_amd64
           path: ./
 
-      - name: Download Artifact for arm64
+      - name: download artifact for arm64
         uses: actions/download-artifact@v2
         with:
           name: nekoray_arm64
