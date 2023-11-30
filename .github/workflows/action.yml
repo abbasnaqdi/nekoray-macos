@@ -1,4 +1,4 @@
-name: Build and release NekoRay / NekoBox
+name: Build and release NekoRay/NekoBox
 
 on:
   schedule:
@@ -91,7 +91,7 @@ jobs:
   test_arm64:
     strategy:
       matrix:
-        os: [macos-13]
+        os: [macos-13-xlarge]
 
     runs-on: ${{ matrix.os }}
     needs: build_and_upload_arm64
