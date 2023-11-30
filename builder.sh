@@ -59,7 +59,7 @@ check_and_install() {
 }
 
 # Array to store dependencies
-dependencies=("cmake" "ninja" "go@1.21" "curl")
+dependencies=("cmake" "ninja" "golang" "curl")
 
 # Check and install dependencies using the function
 for dep in "${dependencies[@]}"; do
