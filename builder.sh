@@ -141,7 +141,7 @@ version_standalone="nekoray-"$(cat "$nPath/nekoray_version.txt")
 
 # Build nekobox_core and nekoray_core for both amd64 and arm64
 for arch in "amd64" "arm64"; do
-  GOTOOLCHAIN=go1.21.1 GOOS="darwin" GOARCH=$arch bash libs/build_go.sh
+  GOOS="darwin" GOARCH=$arch bash libs/build_go.sh
   cp -a "$nPath/deployment/macos-$arch/." "$nPath/build/nekoray_$arch.app/Contents/MacOS/"
 done
 
