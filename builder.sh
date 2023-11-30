@@ -7,11 +7,11 @@ export MACOSX_DEPLOYMENT_TARGET="10.15"
 
 # Remove unnecessary directories if running in GitHub Actions
 if [ -n "$GITHUB_ACTIONS" ]; then
-  for dir in "nekoray" "v2ray-core" "sing-box-extra" "sing-box" "libneko" "Xray-core"; do
+  for dir in "nekoray" "v2ray-core" "sing-box-extra" "sing-box" "libneko" "Xray-core" "sing-quic" ; do
     [ -d "$dir" ] && rm -rf "$dir"
   done
 else
-  if ! rmdir nekoray v2ray-core sing-box-extra sing-box libneko Xray-core 2> /dev/null; then
+  if ! rmdir nekoray v2ray-core sing-box-extra sing-box libneko Xray-core sing-quic 2> /dev/null; then
     echo "clean and ready..."
   fi
 fi
