@@ -1,6 +1,6 @@
 ### NekoRay/NekoBox builder script for macOS
 
-**I have a sponsor to use github enterprise services to use arm runners (please contact me)**
+**I urgently need a sponsor to use github enterprise services to use arm runners (please contact me)**
 
 This script is made to build **[https://github.com/MatsuriDayo/nekoray](https://github.com/MatsuriDayo/nekoray)** software for use on **`macOS`** operating system.
 
