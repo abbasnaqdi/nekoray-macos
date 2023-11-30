@@ -23,6 +23,7 @@ jobs:
             echo "Latest tags match! Aborting workflow."
             exit 1
           fi
+
           
   build:
     runs-on: macos-latest
@@ -30,6 +31,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Uninstall existing Go
+        run: |
+          sudo rm -rf /usr/local/go
+          brew uninstall go
 
       - name: Build Nekoray
         run: |

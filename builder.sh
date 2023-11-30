@@ -58,11 +58,6 @@ check_and_install() {
   }
 }
 
-# Remove previous golang
-go version
-brew uninstall go 
-brew unlink go@1.20
-
 # Array to store dependencies
 dependencies=("golang" "cmake" "ninja" "curl")
 
@@ -70,9 +65,6 @@ dependencies=("golang" "cmake" "ninja" "curl")
 for dep in "${dependencies[@]}"; do
   check_and_install "$dep" "$dep"
 done
-
-# Replace golang
-brew link --overwrite go
 
 # Set environment variables for Qt5
 export PATH="/usr/local/opt/qt@5/bin:$PATH"
