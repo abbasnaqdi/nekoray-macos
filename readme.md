@@ -1,24 +1,23 @@
-### NekoRay/NekoBox builder script for macOS
+### Sponsorship Opportunity: Building NekoRay/NekoBox for macOS
 
-**I urgently need a sponsor to use github enterprise services to use arm runners (please contact me)**
+I am seeking a sponsor that provides access to GitHub Enterprise services and ARM-based runners to assist with building and deploying the NekoRay/NekoBox software for macOS. 
 
-This script is made to build **[https://github.com/MatsuriDayo/nekoray](https://github.com/MatsuriDayo/nekoray)** software for use on **`macOS`** operating system.
+As outlined in [GitHub's documentation](https://github.blog/2023-10-02-introducing-the-new-apple-silicon-powered-m1-macos-larger-runner-for-github-actions/), each GitHub Actions job on macOS may incur significant costs. I estimate each build would require 5-10 minutes on an ARM-based runner, with costs likely exceeding $1 per run. 
 
-Each version is based on the latest version released in the main repository for both `amd64` and `arm64 `architecture.
+A sponsorship would empower faster iteration and deployment of this software for the macOS community.
 
+Please [contact me](mailto:naqdi.ab@gmail.com) if interested in this sponsorship opportunity (or please donate).
 
-### How to use
+### Building NekoRay/NekoBox for macOS
 
-```bash
+To build the software locally:
+
+```
 bash builder.sh
 ```
-
-#### Donate (For more motivation)
 
 [![Donate](https://img.shields.io/badge/BTC-Donate-green)]()  `1HPZyUP9EJZi2S87QrvCDrE47qRV4i5Fze`
 
 [![Donate](https://img.shields.io/badge/ETH-Donate-blue)]()   `0x4a4b0A26Eb31e9152653E4C08bCF10f04a0A02a9`
 
 [![Donate](https://img.shields.io/badge/USDT-Donate-green)]() `TAewZVAD4eKjPo9uJ5TesxJUrXiBtVATsK`
-
-[![Donate](https://img.shields.io/badge/IDPay-Donate-blue)]() Rial(ریال) https://idpay.ir/aaaamirabbas
