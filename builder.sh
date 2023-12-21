@@ -68,7 +68,7 @@ done
 
 # installation path of qt@5 install by brew
 info=$(brew info qt@5)
-installation_path=$(echo "$info" | grep "Cellar/$package_name" | awk -F ' ' '{print $1}')
+installation_path=$(echo "$info" | grep "Cellar/qt@5" | awk -F ' ' '{print $1}')
 
 # Set environment variables for Qt5 and macdeployqt path for macOS
 export PATH="$installation_path/bin:$PATH"
