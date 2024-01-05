@@ -1,4 +1,4 @@
-### Request for MacBook Sponsorship
+### Request for MacBook ARM chips Sponsorship
 
 I urgently need a sponsor to provide a MacBook with an ARM processor, or a donation to purchase one. This would enable full compatibility between the NekoRay/NekoBox software and this processor, which is not yet possible.
 
