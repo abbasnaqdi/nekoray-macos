@@ -5,7 +5,8 @@ I urgently need a sponsor to provide a MacBook with an ARM processor, or a donat
 Sponsorship would empower rapid deployment of this software for macOS users.
 
 Please [contact me](mailto:naqdi.ab@gmail.com)
-[![Sponsorship](https://img.shields.io/badge/Donation-Donate-blue)]()
+
+[![Sponsorship](https://img.shields.io/badge/Sponsorship-Donation-blue)]()
 - **BTC**  `1HPZyUP9EJZi2S87QrvCDrE47qRV4i5Fze`
 - **ETH** `0x4a4b0A26Eb31e9152653E4C08bCF10f04a0A02a9`
 - **Solana** `79jpuA9LVVS18b7f3FPdZGqApkhVbopA9WMKgesf56i9`
