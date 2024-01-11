@@ -59,22 +59,23 @@ check_and_install() {
 }
 
 # Array to store dependencies
-dependencies=("golang" "cmake" "ninja" "curl")
+dependencies=("golang" "cmake" "ninja" "curl" "qt@5")
 
 # Check and install dependencies using the function
 for dep in "${dependencies[@]}"; do
   check_and_install "$dep" "$dep"
 done
 
-# Set environment variables for Qt5
-export PATH="/usr/local/opt/qt@5/bin:$PATH"
-export LDFLAGS="-L/usr/local/opt/qt@5/lib"
-export CPPFLAGS="-I/usr/local/opt/qt@5/include"
-export QT_QPA_PLATFORM_PLUGIN_PATH="/usr/local/opt/qt@5/plugins"
-# export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
+# installation path of qt@5 install by brew
+info=$(brew info qt@5)
+installation_path=$(echo "$info" | grep "Cellar/qt@5" | awk -F ' ' '{print $1}')
 
-# Install macdeployqt for macOS
-check_and_install "macdeployqt" "qt@5"
+# Set environment variables for Qt5 and macdeployqt path for macOS
+export PATH="$installation_path/bin:$PATH"
+export LDFLAGS="-L$installation_path/lib"
+export CPPFLAGS="-I$installation_path/include"
+export QT_QPA_PLATFORM_PLUGIN_PATH="$installation_path/plugins"
+# export PKG_CONFIG_PATH="/usr/local/opt/qt@5/lib/pkgconfig"
 
 nRoot=$(pwd)
 nPath=$(pwd)/nekoray
@@ -98,7 +99,7 @@ bash libs/build_deps_all.sh
 
 # Build nekoray using CMake and Ninja
 cd "$nPath/build"
-cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DNKR_PACKAGE_MACOS=1 ..
+cmake -GNinja -DCMAKE_PREFIX_PATH=$installation_path -DCMAKE_BUILD_TYPE=Release -DNKR_PACKAGE_MACOS=1 ..
 ninja
 
 cd "$nPath"
