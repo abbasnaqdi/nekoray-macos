@@ -6,7 +6,7 @@ I urgently need a sponsor to provide a MacBook with an ARM processor, or a donat
 
 Sponsorship would empower rapid deployment of this software for macOS users.
 
-Please contact me [Email:](mailto:naqdi.ab@gmail.com) [Telegram](https://telegram.me/abbasnaqdi)
+Please contact me [Email](mailto:naqdi.ab@gmail.com) (:) [Telegram](https://telegram.me/abbasnaqdi)
 
 [![Sponsorship](https://img.shields.io/badge/Sponsorship-Donation-blue)]()
 - **BTC**  `1HPZyUP9EJZi2S87QrvCDrE47qRV4i5Fze`
