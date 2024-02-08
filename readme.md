@@ -11,8 +11,13 @@ Please contact me [Email](mailto:naqdi.ab@gmail.com) or [Telegram](https://teleg
 [![Sponsorship](https://img.shields.io/badge/Sponsorship-Donation-blue)]()
 - **BTC**  `1HPZyUP9EJZi2S87QrvCDrE47qRV4i5Fze`
 - **ETH** `0x4a4b0A26Eb31e9152653E4C08bCF10f04a0A02a9`
+- **BNB** `bnb16m4g658hxnm43hydf2xd67a2q44s83gaygg779`
 - **Solana** `79jpuA9LVVS18b7f3FPdZGqApkhVbopA9WMKgesf56i9`
-- **Dai (ETH network)** `0x4a4b0A26Eb31e9152653E4C08bCF10f04a0A02a9`
+- **Dai (MATIC)** `0x4a4b0A26Eb31e9152653E4C08bCF10f04a0A02a9`
+- **Tether (MATIC)** `0x4a4b0A26Eb31e9152653E4C08bCF10f04a0A02a9`
+- **Doge** `DMZ2PS3rVCqiHuLA7MoizuHChCwx7Ub4Dc`
+- **Monero** `454BFM1sGCdF2Bo6BkpmCyBDtywb6waFqGwV8KzY8yeNXgEaaqMBoDUBVQpaDMMJWqBeCQzGFxuW4atgDdhqVhHJVSUyhrR`
+
 
 ### Building NekoRay/NekoBox for macOS
 
