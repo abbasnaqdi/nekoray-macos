@@ -8,7 +8,7 @@ Donations would empower rapid deployment of this software for macOS users.
 
 Please contact me [Email](mailto:naqdi.ab@gmail.com) or [Telegram](https://telegram.me/abbasnaqdi)
 
-**Donation made until (Aug 9, 2024): `~$61`**
+**Donation made until (Aug 9, 2024): `~$76❤️`**
 
 [![Donation](https://img.shields.io/badge/Donation-blue)]() [![Crypto](https://img.shields.io/badge/Crypto-gray)]()
 - **BTC**  `1HPZyUP9EJZi2S87QrvCDrE47qRV4i5Fze`
