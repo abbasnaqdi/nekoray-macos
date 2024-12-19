@@ -23,7 +23,6 @@ Please contact me [Email](mailto:naqdi.ab@gmail.com) or [Telegram](https://teleg
 - Tether **USDT (BSC)** `0x4a4b0A26Eb31e9152653E4C08bCF10f04a0A02a9`
 
 ### Building NekoRay/NekoBox for macOS
-
 To build the software locally:
 
 ```
