@@ -1,12 +1,10 @@
+**This repository is no longer updated, use https://github.com/throneproj/Throne project**
+
+----
 NekoRay / NekoBox for macos (`amd64|Intel and amr64|M1|M2|M3,...`)
 
-### Donation
-
-Unfortunately, my MacBook is lost, and I can no longer make new compatible versions.
-
-Donations would empower rapid deployment of this software for macOS users.
-
-Please contact me [Email](mailto:naqdi.ab@gmail.com) or [Telegram](https://telegram.me/abbasnaqdi)
+#### Donation
+Contact me [Email](mailto:naqdi.ab@gmail.com) or [Telegram](https://telegram.me/abbasnaqdi)
 
 [![Donation](https://img.shields.io/badge/Donation-blue)]() [![Crypto](https://img.shields.io/badge/Crypto-gray)]()
 - Bitcoin **BTC** `1HPZyUP9EJZi2S87QrvCDrE47qRV4i5Fze`
@@ -23,7 +21,7 @@ Please contact me [Email](mailto:naqdi.ab@gmail.com) or [Telegram](https://teleg
 - Tether **USDT (TRX)** `TAewZVAD4eKjPo9uJ5TesxJUrXiBtVATsK`
 - Tether **USDT (BSC)** `0x4a4b0A26Eb31e9152653E4C08bCF10f04a0A02a9`
 
-### Building NekoRay/NekoBox for macOS
+#### Building NekoRay/NekoBox for macOS
 To build the software locally:
 
 ```
